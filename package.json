@@ -29,6 +29,7 @@
     "@aptos-labs/ts-sdk": "^1.35.0",
     "@langchain/anthropic": "^0.3.15",
     "@langchain/langgraph": "^0.2.52",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "dotenv": "^16.4.7",
     "eslint-config-prettier": "^10.0.2",
