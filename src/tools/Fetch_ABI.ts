@@ -1,6 +1,7 @@
 import { StructuredTool } from '@langchain/core/tools'
 import { Aptos, AptosConfig, Network } from '@aptos-labs/ts-sdk'
 import { z } from 'zod'
+import { initializeAptos } from '../utils/aptosConfig'
 
 class FetchABITool extends StructuredTool {
   name = 'fetch_move_module_abi'
@@ -12,21 +13,22 @@ class FetchABITool extends StructuredTool {
     moduleName: z.string().describe('The name of the module (e.g., "coin")')
   })
 
-  private aptos: Aptos
+  // private aptos: Aptos
 
   constructor() {
     super()
     // Initialize Aptos client
-    const config = new AptosConfig({ network: Network.DEVNET })
-    this.aptos = new Aptos(config)
+    // const config = new AptosConfig({ network: Network.DEVNET })
+    // this.aptos = new Aptos(config)
   }
 
   async _call(input: z.infer<typeof this.schema>, runManager?: any, config?: any): Promise<string> {
     const { moduleAddress, moduleName } = input
 
     try {
+      const { aptos, account } = await initializeAptos()
       // Fetch the specific module
-      const module = await this.aptos.getAccountModule({
+      const module = await aptos.getAccountModule({
         accountAddress: moduleAddress,
         moduleName
       })
